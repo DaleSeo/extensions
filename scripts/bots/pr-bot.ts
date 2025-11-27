@@ -198,7 +198,7 @@ export default async ({ github, context }: API) => {
       await comment({
         github,
         context,
-        comment: `Congratulations on your new Raycast extension! :rocket:\\n\\n${expectations}\\n\\nOnce the PR is approved and merged, the extension will be available on our Store.`,
+        comment: `Congratulations on your new Raycast extension! :rocket:\n\n${expectations}\n\nOnce the PR is approved and merged, the extension will be available on our Store.`,
       });
       return;
     }
@@ -266,7 +266,7 @@ export default async ({ github, context }: API) => {
       await comment({
         github,
         context,
-        comment: `Thank you for your ${isFirstContribution ? "first " : ""} contribution! :tada:\n\nThis is especially helpful since there were no maintainers for this extension :pray:\\n\\n${expectations}`,
+        comment: `Thank you for your ${isFirstContribution ? "first " : ""} contribution! :tada:\n\nThis is especially helpful since there were no maintainers for this extension :pray:\n\n${expectations}`,
       });
     }
 
@@ -281,7 +281,7 @@ export default async ({ github, context }: API) => {
       await comment({
         github,
         context,
-        comment: `Thank you for the update! :tada:\\n\\n${expectations}`,
+        comment: `Thank you for the update! :tada:\n\n${expectations}`,
       });
       return;
     }
@@ -300,7 +300,7 @@ export default async ({ github, context }: API) => {
       context,
       comment: `Thank you for your ${isFirstContribution ? "first " : ""} contribution! :tada:\n\n🔔 ${[...new Set(owners.filter((x) => x !== sender))]
         .map((x) => `@${x}`)
-        .join(" ")} you might want to have a look.\\n\\nYou can use [this guide](https://developers.raycast.com/basics/review-pullrequest) to learn how to check out the Pull Request locally in order to test it.\\n\\n${expectations}`,
+        .join(" ")} you might want to have a look.\n\nYou can use [this guide](https://developers.raycast.com/basics/review-pullrequest) to learn how to check out the Pull Request locally in order to test it.\n\n${expectations}`,
     });
 
     return;
