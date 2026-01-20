@@ -29,6 +29,21 @@ export default async ({ github, context }: API) => {
   }
   */
 
+  const isDocsPR = await checkForDocsInPullRequestDiff({ github, context });
+  if (isDocsPR) {
+    try {
+      await github.rest.issues.addLabels({
+        issue_number: context.issue.number,
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        labels: ["site-documentation"],
+      });
+      console.log("Added documentation label");
+    } catch (error) {
+      console.error("Failed to add documentation label:", error);
+    }
+  }
+
   console.log("changed extensions", process.env.CHANGED_EXTENSIONS);
 
   if (!process.env.CHANGED_EXTENSIONS) {
@@ -338,6 +353,31 @@ async function checkForAiInPullRequestDiff(
   }
 
   return aiFilesOrToolsExist;
+}
+
+async function checkForDocsInPullRequestDiff(
+  { github, context }: Pick<API, "github" | "context">
+): Promise<boolean> {
+  try {
+    const { data: files } = await github.rest.pulls.listFiles({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      pull_number: context.issue.number,
+    });
+
+    for (const file of files) {
+      const filePath = file.filename;
+
+      if (/^docs\//.test(filePath)) {
+        return true;
+      }
+    }
+
+    return false;
+  } catch (error) {
+    console.error("Failed to check for docs in PR diff:", error);
+    return false;
+  }
 }
 
 async function getPlatformsFromPullRequestDiff(
