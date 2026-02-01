@@ -1,0 +1,43 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "skills",
+  "title": "Skills",
+  "description": "Browse and install agent skills from skills.sh",
+  "icon": "icon.png",
+  "author": "DaleSeo",
+  "categories": ["Developer Tools"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "index",
+      "title": "Search Skills",
+      "subtitle": "skills.sh",
+      "description": "Search for skills",
+      "mode": "view"
+    },
+    {
+      "name": "trending",
+      "title": "Trending Skills",
+      "subtitle": "skills.sh",
+      "description": "View trending skills",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.103.6",
+    "@raycast/utils": "^2.2.2"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.1.1",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
