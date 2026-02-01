@@ -17,6 +17,9 @@ npm run build
 
 # Run ESLint
 npm run lint
+
+# Publish to Raycast Store
+npm run publish
 ```
 
 **Note:** Raycast CLI commands use `ray` (e.g., `ray develop`, `ray build`, `ray lint`).
@@ -39,8 +42,14 @@ Trending → fetchPopularSkills (API) → REST API Request → Skill Model
 
 ### Key Components
 
-- **`src/components/SkillListItem.tsx`**: Reusable list item component with actions (copy install command, open URLs)
+- **`src/components/SkillListItem.tsx`**: Reusable list item component with actions:
+  - Copy Install Command (↵)
+  - Open on skills.sh (⌘↵)
+  - Open on GitHub (⌘O) - conditional on repositoryUrl
+  - Copy Repository URL (⌘C) - conditional on repositoryUrl
 - **`src/hooks/useSkillsSearch.ts`**: Manages search state with 600ms debounce and abort controller for request cancellation. Returns empty array when search query is empty.
+- **`src/utils/format.ts`**: Formats install counts (4.8K, 1.2M)
+- **`src/utils/errors.ts`**: Error handling utilities
 
 ### API & Data Fetching
 
@@ -98,14 +107,12 @@ Note: `description`, `rank`, and `tags` are not populated from search API (empty
 ## UI Patterns
 
 - **Empty States**: Different messages for "no search results" vs "start typing to search"
-- **Accessories**: Display install count in list items
+- **Accessories**: Display install count in list items with formatted numbers
 - **Debounced Search**: 600ms delay to avoid excessive API calls during typing
 - **No Default Results**: Search command shows nothing until user types (no popular/history fallback)
-
-## Extension Configuration
-
-Preferences (defined in `package.json`):
-- `defaultSort`: Sort order for search results (all-time/trending/hot, default: all-time)
+- **Action Panel**: Simple flat list of actions without sections
+- **Icons**: Icon.Plug for skill items, Icon.MagnifyingGlass for empty states
+- **Client-side Filtering**: Trending command includes search to filter results locally
 
 ## Development Notes
 
@@ -114,4 +121,14 @@ Preferences (defined in `package.json`):
 - Target ES2022 with CommonJS modules
 - Uses native `fetch` API for HTTP requests (no axios/node-fetch needed)
 - No unit tests currently in the repository (manual testing only)
-- No external dependencies beyond Raycast SDK (cheerio removed)
+- No external dependencies beyond Raycast SDK
+- Icon: 512x512 PNG format (assets/icon.png)
+- Screenshots: 3 screenshots at 2000x1250 pixels (metadata/)
+
+## Raycast Store Submission
+
+The extension has been submitted to the Raycast Store:
+- PR: https://github.com/raycast/extensions/pull/25036
+- Follows all Raycast extension guidelines
+- Includes proper metadata, screenshots, and documentation
+- CHANGELOG.md follows format: `## [Change Title] - {PR_MERGE_DATE}`
