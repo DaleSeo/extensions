@@ -82,7 +82,14 @@ export default function SearchSkills() {
           actions={emptyViewContent.actions}
         />
       ) : (
-        skills.map((skill) => <SkillListItem key={skill.id} skill={skill} />)
+        <List.Section
+          title="Search Results"
+          subtitle={`${skills.length} skills`}
+        >
+          {skills.map((skill) => (
+            <SkillListItem key={skill.id} skill={skill} />
+          ))}
+        </List.Section>
       )}
     </List>
   );

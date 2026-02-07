@@ -6,7 +6,7 @@ import {
   ActionPanel,
   Icon,
 } from "@raycast/api";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { SkillListItem } from "./components/SkillListItem";
 import { fetchPopularSkills } from "./utils/api";
 import { Skill } from "./model/skill";
@@ -17,6 +17,7 @@ export default function TrendingSkills() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [searchText, setSearchText] = useState("");
+  const [companyFilter, setCompanyFilter] = useState("all");
 
   const loadTrendingSkills = useCallback(async () => {
     try {
@@ -41,8 +42,14 @@ export default function TrendingSkills() {
     loadTrendingSkills();
   }, [loadTrendingSkills]);
 
-  // Client-side filtering for search
+  const companies = useMemo(
+    () => [...new Set(skills.map((skill) => skill.owner))].sort(),
+    [skills],
+  );
+
+  // Client-side filtering for search and company
   const filteredSkills = skills.filter((skill) => {
+    if (companyFilter !== "all" && skill.owner !== companyFilter) return false;
     const searchLower = searchText.toLowerCase();
     return (
       skill.name.toLowerCase().includes(searchLower) ||
@@ -57,6 +64,24 @@ export default function TrendingSkills() {
       searchText={searchText}
       onSearchTextChange={setSearchText}
       searchBarPlaceholder="Search trending skills..."
+      searchBarAccessory={
+        <List.Dropdown
+          tooltip="Filter by Company"
+          value={companyFilter}
+          onChange={setCompanyFilter}
+        >
+          <List.Dropdown.Item title="All Companies" value="all" />
+          <List.Dropdown.Section title="Companies">
+            {companies.map((company) => (
+              <List.Dropdown.Item
+                key={company}
+                title={company}
+                value={company}
+              />
+            ))}
+          </List.Dropdown.Section>
+        </List.Dropdown>
+      }
     >
       {filteredSkills.length === 0 ? (
         <List.EmptyView
@@ -76,9 +101,14 @@ export default function TrendingSkills() {
           }
         />
       ) : (
-        filteredSkills.map((skill) => (
-          <SkillListItem key={skill.id} skill={skill} />
-        ))
+        <List.Section
+          title="Trending Skills"
+          subtitle={`${filteredSkills.length} skills`}
+        >
+          {filteredSkills.map((skill, index) => (
+            <SkillListItem key={skill.id} skill={skill} rank={index + 1} />
+          ))}
+        </List.Section>
       )}
     </List>
   );

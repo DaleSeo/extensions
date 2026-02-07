@@ -56,7 +56,7 @@ export async function fetchSkills(
  */
 export async function fetchPopularSkills(): Promise<Skill[]> {
   try {
-    const limit = 50;
+    const limit = 100;
     const url = `${SKILLS_BASE_URL}/api/search?q=skills&limit=${limit}`;
 
     const response = await fetch(url);

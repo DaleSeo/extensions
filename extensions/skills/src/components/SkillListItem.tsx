@@ -1,13 +1,19 @@
-import { List, ActionPanel, Action, Icon } from "@raycast/api";
+import { List, ActionPanel, Action, Icon, Color, Image } from "@raycast/api";
 import { Skill } from "../model/skill";
 import { formatInstallCount } from "../utils/format";
 import { SkillDetail } from "./SkillDetail";
 
 interface SkillListItemProps {
   skill: Skill;
+  rank?: number;
 }
 
-export function SkillListItem({ skill }: SkillListItemProps) {
+function getRankIcon(rank: number): Image.ImageLike {
+  const tintColor = rank <= 3 ? Color.Yellow : Color.SecondaryText;
+  return { source: Icon.Trophy, tintColor };
+}
+
+export function SkillListItem({ skill, rank }: SkillListItemProps) {
   const accessories: List.Item.Accessory[] = [];
 
   if (skill.installCount > 0) {
@@ -19,8 +25,8 @@ export function SkillListItem({ skill }: SkillListItemProps) {
 
   return (
     <List.Item
-      icon={Icon.Plug}
-      title={skill.name}
+      icon={rank ? getRankIcon(rank) : Icon.Plug}
+      title={rank ? `#${rank} ${skill.name}` : skill.name}
       subtitle={`${skill.owner}/${skill.repo}`}
       accessories={accessories}
       actions={
