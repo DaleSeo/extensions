@@ -36,7 +36,10 @@ export function useSkillsSearch(searchText: string, retryTrigger = 0) {
 
       try {
         abortControllerRef.current = new AbortController();
-        const results = await fetchSkills(trimmedSearch);
+        const results = await fetchSkills(
+          trimmedSearch,
+          abortControllerRef.current.signal,
+        );
         setSkills(results);
       } catch (err) {
         if (err instanceof Error && err.name !== "AbortError") {

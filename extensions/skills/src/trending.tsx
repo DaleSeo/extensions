@@ -22,7 +22,7 @@ export default function TrendingSkills() {
     try {
       setIsLoading(true);
       setError(null);
-      const trendingSkills = await fetchPopularSkills("trending");
+      const trendingSkills = await fetchPopularSkills();
       setSkills(trendingSkills);
     } catch (err) {
       const errorObj = toError(err);
@@ -58,19 +58,21 @@ export default function TrendingSkills() {
       onSearchTextChange={setSearchText}
       searchBarPlaceholder="Search trending skills..."
     >
-      {filteredSkills.length === 0 && error ? (
+      {filteredSkills.length === 0 ? (
         <List.EmptyView
-          icon={Icon.ExclamationMark}
-          title="Failed to Load Trending Skills"
-          description={error.message}
+          icon={error ? Icon.ExclamationMark : Icon.MagnifyingGlass}
+          title={error ? "Failed to Load Trending Skills" : "No Skills Found"}
+          description={error ? error.message : "Try a different search term"}
           actions={
-            <ActionPanel>
-              <Action
-                title="Retry"
-                icon={Icon.ArrowClockwise}
-                onAction={loadTrendingSkills}
-              />
-            </ActionPanel>
+            error ? (
+              <ActionPanel>
+                <Action
+                  title="Retry"
+                  icon={Icon.ArrowClockwise}
+                  onAction={loadTrendingSkills}
+                />
+              </ActionPanel>
+            ) : undefined
           }
         />
       ) : (

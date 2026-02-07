@@ -11,5 +11,3 @@ export interface Skill {
   rank?: number;
   tags?: string[];
 }
-
-export type SortOrder = "all-time" | "trending" | "hot";

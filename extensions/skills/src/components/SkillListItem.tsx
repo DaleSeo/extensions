@@ -1,6 +1,7 @@
 import { List, ActionPanel, Action, Icon } from "@raycast/api";
 import { Skill } from "../model/skill";
 import { formatInstallCount } from "../utils/format";
+import { SkillDetail } from "./SkillDetail";
 
 interface SkillListItemProps {
   skill: Skill;
@@ -24,9 +25,15 @@ export function SkillListItem({ skill }: SkillListItemProps) {
       accessories={accessories}
       actions={
         <ActionPanel>
+          <Action.Push
+            title="View Details"
+            icon={Icon.Eye}
+            target={<SkillDetail skill={skill} />}
+          />
           <Action.CopyToClipboard
             title="Copy Install Command"
             content={skill.installCommand}
+            shortcut={{ modifiers: ["cmd"], key: "." }}
           />
           <Action.OpenInBrowser title="Open on Skills.sh" url={skill.url} />
           {skill.repositoryUrl && (
@@ -34,13 +41,6 @@ export function SkillListItem({ skill }: SkillListItemProps) {
               title="Open on GitHub"
               url={skill.repositoryUrl}
               shortcut={{ modifiers: ["cmd"], key: "o" }}
-            />
-          )}
-          {skill.repositoryUrl && (
-            <Action.CopyToClipboard
-              title="Copy Repository URL"
-              content={skill.repositoryUrl}
-              shortcut={{ modifiers: ["cmd"], key: "c" }}
             />
           )}
         </ActionPanel>
