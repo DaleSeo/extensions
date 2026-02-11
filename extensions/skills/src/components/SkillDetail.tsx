@@ -1,4 +1,4 @@
-import { ActionPanel, Action, Icon, Detail } from "@raycast/api";
+import { ActionPanel, Action, Icon, Detail, Keyboard } from "@raycast/api";
 
 import { useSkillContent } from "../hooks/useSkillContent";
 import { type Skill, formatInstalls, buildInstallCommand } from "../shared";
@@ -55,12 +55,12 @@ ${buildInstallCommand(skill)}
             title="Open Skills"
             url={`https://skills.sh/${skill.source}/${skill.skillId}`}
             icon={Icon.Link}
-            shortcut={{ modifiers: ["cmd"], key: "o" }}
+            shortcut={Keyboard.Shortcut.Common.Open}
           />
           <Action.CopyToClipboard
             title="Copy Skill Name"
             content={skill.name}
-            shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
+            shortcut={Keyboard.Shortcut.Common.CopyName}
           />
         </ActionPanel>
       }
