@@ -1,10 +1,10 @@
 # Changelog
 
-## [Fix] - 2026-02-11
+## [Fix Screenshots] - {PR_MERGE_DATE}
 
 ### Fixed
 
-- Fixed broken screenshot references in README
+- Move screenshots to assets folder and update README references
 
 ## [Initial Version] - 2026-02-11
 
