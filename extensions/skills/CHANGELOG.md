@@ -1,6 +1,6 @@
 # Changelog
 
-## [Fix Screenshots] - {PR_MERGE_DATE}
+## [Fix Screenshots] - 2026-02-11
 
 ### Fixed
 
