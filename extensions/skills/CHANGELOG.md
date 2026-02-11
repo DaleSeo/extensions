@@ -1,6 +1,6 @@
 # Changelog
 
-## [Fix Skill Details] - {PR_MERGE_DATE}
+## [Fix Skill Details] - 2026-02-11
 
 - Load SKILL.md files first, fallback to README.md
 - Add automatic caching with useCachedPromise
