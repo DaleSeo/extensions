@@ -1,5 +1,12 @@
 # Changelog
 
+## [Fix Skill Details] - {PR_MERGE_DATE}
+
+- Load SKILL.md files first, fallback to README.md
+- Add automatic caching with useCachedPromise
+- Improve loading performance with parallel fetch requests
+- Fix screen flickering when loading skill details
+
 ## [Initial Version] - 2026-02-11
 
 ### Added

@@ -1,39 +1,17 @@
-import { ActionPanel, Action, Icon, Detail, Keyboard } from "@raycast/api";
-import { useFetch } from "@raycast/utils";
+import { ActionPanel, Action, Icon, Detail } from "@raycast/api";
 
+import { useSkillContent } from "../hooks/useSkillContent";
 import { type Skill, formatInstalls, buildInstallCommand } from "../shared";
 
 export function SkillDetail({ skill }: { skill: Skill }) {
-  const readmeUrl = `https://raw.githubusercontent.com/${skill.source}/main/README.md`;
-  const { data: readme, isLoading } = useFetch<string>(readmeUrl, {
-    parseResponse: async (response) => {
-      if (!response.ok || response.headers.get("content-type")?.includes("text/html")) {
-        throw new Error("not found");
-      }
-      return response.text();
-    },
-    failureToastOptions: { title: "" },
-    onError: () => {},
-  });
+  const { content, isLoading } = useSkillContent(skill);
 
-  const fallbackReadmeUrl = `https://raw.githubusercontent.com/${skill.source}/master/README.md`;
-  const { data: fallbackReadme } = useFetch<string>(fallbackReadmeUrl, {
-    execute: !readme && !isLoading,
-    parseResponse: async (response) => {
-      if (!response.ok || response.headers.get("content-type")?.includes("text/html")) {
-        throw new Error("not found");
-      }
-      return response.text();
-    },
-    failureToastOptions: { title: "" },
-    onError: () => {},
-  });
-
-  const content = readme || fallbackReadme;
-
-  const markdown = content
-    ? content
-    : `# ${skill.name}
+  // Show minimal content while loading to prevent flickering
+  const markdown = isLoading
+    ? `# ${skill.name}\n\nLoading...`
+    : content
+      ? content
+      : `# ${skill.name}
 
 **Repository:** [${skill.source}](https://github.com/${skill.source})
 
@@ -77,12 +55,12 @@ ${buildInstallCommand(skill)}
             title="Open Skills"
             url={`https://skills.sh/${skill.source}/${skill.skillId}`}
             icon={Icon.Link}
-            shortcut={Keyboard.Shortcut.Common.Open}
+            shortcut={{ modifiers: ["cmd"], key: "o" }}
           />
           <Action.CopyToClipboard
             title="Copy Skill Name"
             content={skill.name}
-            shortcut={Keyboard.Shortcut.Common.CopyName}
+            shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
           />
         </ActionPanel>
       }
