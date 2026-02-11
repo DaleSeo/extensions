@@ -24,5 +24,5 @@ View the top skills ranked by total installs.
 
 ![Trending Skills](metadata/skills-1.png)
 ![Trending Skills](metadata/skills-2.png)
-![Search Skills](metadata/skills-3.png)
+![Skill Detail](metadata/skills-3.png)
 ![Search Skills](metadata/skills-4.png)
