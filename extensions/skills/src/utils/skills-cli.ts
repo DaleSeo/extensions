@@ -17,8 +17,7 @@ function execWithPath(command: string) {
   if (isWindows) {
     return execAsync(command);
   }
-  const escaped = command.replace(/"/g, '\\"');
-  return execAsync(`zsh -l -c "${escaped}"`);
+  return execAsync(`zsh -l -c ${shellEscape(command)}`);
 }
 
 // eslint-disable-next-line no-control-regex
