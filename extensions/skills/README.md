@@ -34,3 +34,5 @@ View and remove installed skills. Filter by agent to see which skills are availa
 ![Trending Skills](assets/skills-2.png)
 ![Skill Details](assets/skills-3.png)
 ![Search Skills](assets/skills-4.png)
+![Manage Skills](assets/skills-5.png)
+![Skills Details](assets/skills-6.png)
