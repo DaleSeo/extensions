@@ -1,12 +1,16 @@
 # Skills
 
-Browse and search AI agent skills from [Skills](https://skills.sh) directly in Raycast.
+Browse, search, and manage AI agent skills from [Skills](https://skills.sh) directly in Raycast.
 
 ## Features
 
 - Browse top skills ranked by total installs
 - Search for specific skills
-- View skill details and README
+- Filter available skills by owner
+- Install skills for all supported agents
+- View and remove installed skills
+- Filter installed skills by agent
+- View skill details with SKILL.md content
 - Copy install commands
 - Quick access to GitHub repositories
 
@@ -19,6 +23,10 @@ Search for agent skills from skills.sh with real-time results.
 ### Trending Skills
 
 View the top skills ranked by total installs.
+
+### Manage Skills
+
+View and remove installed skills. Filter by agent to see which skills are available for each AI agent.
 
 ## Screenshots
 
