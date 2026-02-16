@@ -1,4 +1,4 @@
-import { ActionPanel, Action, Detail, Icon, Keyboard } from "@raycast/api";
+import { ActionPanel, Action, Detail, Icon, Keyboard, useNavigation } from "@raycast/api";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { useCachedPromise } from "@raycast/utils";
@@ -6,6 +6,7 @@ import { type InstalledSkill, removeFrontmatter } from "../shared";
 import { RemoveSkillAction } from "./actions/RemoveSkillAction";
 
 export function InstalledSkillDetail({ skill, onRemove }: { skill: InstalledSkill; onRemove: () => void }) {
+  const { pop } = useNavigation();
   const { data: content, isLoading } = useCachedPromise(
     async (path: string) => {
       const raw = await readFile(join(path, "SKILL.md"), "utf-8");
@@ -34,7 +35,13 @@ export function InstalledSkillDetail({ skill, onRemove }: { skill: InstalledSkil
       }
       actions={
         <ActionPanel>
-          <RemoveSkillAction skill={skill} onRemove={onRemove} />
+          <RemoveSkillAction
+            skill={skill}
+            onRemove={() => {
+              onRemove();
+              pop();
+            }}
+          />
           <Action.ShowInFinder path={skill.path} icon={Icon.Finder} />
           <Action.CopyToClipboard
             title="Copy Skill Name"

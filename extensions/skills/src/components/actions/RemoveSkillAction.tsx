@@ -1,4 +1,4 @@
-import { Action, Icon, confirmAlert, Alert, showToast, Toast, useNavigation } from "@raycast/api";
+import { Action, Icon, confirmAlert, Alert, showToast, Toast } from "@raycast/api";
 import type { InstalledSkill } from "../../shared";
 import { removeSkill } from "../../utils/skills-cli";
 
@@ -8,8 +8,6 @@ interface RemoveSkillActionProps {
 }
 
 export function RemoveSkillAction({ skill, onRemove }: RemoveSkillActionProps) {
-  const { pop } = useNavigation();
-
   return (
     <Action
       title="Remove Skill"
@@ -30,7 +28,6 @@ export function RemoveSkillAction({ skill, onRemove }: RemoveSkillActionProps) {
           toast.style = Toast.Style.Success;
           toast.title = "Skill removed";
           onRemove();
-          pop();
         } catch (error) {
           toast.style = Toast.Style.Failure;
           toast.title = "Failed to remove skill";

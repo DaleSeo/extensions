@@ -93,12 +93,8 @@ function parseSkillsList(raw: string): InstalledSkill[] {
 }
 
 export async function listInstalledSkills(): Promise<InstalledSkill[]> {
-  try {
-    const { stdout } = await execWithPath(`${SKILLS_CLI} list -g`);
-    return parseSkillsList(stdout);
-  } catch {
-    return [];
-  }
+  const { stdout } = await execWithPath(`${SKILLS_CLI} list -g`);
+  return parseSkillsList(stdout);
 }
 
 export async function installSkill(skill: Skill): Promise<void> {
