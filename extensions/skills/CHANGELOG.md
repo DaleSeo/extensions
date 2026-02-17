@@ -1,6 +1,6 @@
 # Changelog
 
-## [Install & Remove Skills] - {PR_MERGE_DATE}
+## [Install & Remove Skills] - 2026-02-17
 
 - Install skills directly from search and trending commands
 - New "Manage Skills" command to view and remove installed skills
