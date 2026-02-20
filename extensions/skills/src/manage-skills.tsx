@@ -61,7 +61,14 @@ export default function Command() {
       ) : (
         <List.Section title="Installed Skills" subtitle={`${filteredSkills.length} skills`}>
           {filteredSkills.map((skill) => (
-            <InstalledSkillListItem key={skill.name} skill={skill} isSelected={selectedId === skill.name} isShowingDetail={isShowingDetail} onToggleDetail={toggleDetail} onUpdate={revalidate} />
+            <InstalledSkillListItem
+              key={skill.name}
+              skill={skill}
+              isSelected={selectedId === skill.name}
+              isShowingDetail={isShowingDetail}
+              onToggleDetail={toggleDetail}
+              onUpdate={revalidate}
+            />
           ))}
         </List.Section>
       )}

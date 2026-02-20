@@ -44,7 +44,13 @@ interface InstalledSkillListItemProps {
   onUpdate: () => void;
 }
 
-export function InstalledSkillListItem({ skill, isSelected, isShowingDetail, onToggleDetail, onUpdate }: InstalledSkillListItemProps) {
+export function InstalledSkillListItem({
+  skill,
+  isSelected,
+  isShowingDetail,
+  onToggleDetail,
+  onUpdate,
+}: InstalledSkillListItemProps) {
   const extraAgents = skill.agentCount - skill.agents.length;
   const agentsText = extraAgents > 0 ? `${skill.agents.join(", ")} +${extraAgents} more` : skill.agents.join(", ");
 
@@ -53,7 +59,9 @@ export function InstalledSkillListItem({ skill, isSelected, isShowingDetail, onT
       title={skill.name}
       subtitle={isShowingDetail ? undefined : agentsText}
       icon={{ source: Icon.Hammer, tintColor: Color.Purple }}
-      accessories={isShowingDetail ? [] : [{ icon: Icon.ComputerChip, text: `${skill.agentCount}`, tooltip: agentsText }]}
+      accessories={
+        isShowingDetail ? [] : [{ icon: Icon.ComputerChip, text: `${skill.agentCount}`, tooltip: agentsText }]
+      }
       keywords={[skill.name, ...skill.agents]}
       id={skill.name}
       detail={<InlineDetail skill={skill} isSelected={isSelected} />}

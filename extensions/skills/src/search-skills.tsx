@@ -63,7 +63,13 @@ export default function Command() {
       ) : (
         <List.Section title={`Results for "${searchText}"`} subtitle={`${skills.length} skills`}>
           {skills.map((skill) => (
-            <SkillListItem key={skill.id} skill={skill} isSelected={selectedId === skill.id} isShowingDetail={isShowingDetail} onToggleDetail={toggleDetail} />
+            <SkillListItem
+              key={skill.id}
+              skill={skill}
+              isSelected={selectedId === skill.id}
+              isShowingDetail={isShowingDetail}
+              onToggleDetail={toggleDetail}
+            />
           ))}
         </List.Section>
       )}

@@ -30,7 +30,11 @@ ${installCommand}
       markdown={markdown}
       metadata={
         <List.Item.Detail.Metadata>
-          <List.Item.Detail.Metadata.Label title="Installs" text={formatInstalls(skill.installs)} icon={Icon.Download} />
+          <List.Item.Detail.Metadata.Label
+            title="Installs"
+            text={formatInstalls(skill.installs)}
+            icon={Icon.Download}
+          />
           <List.Item.Detail.Metadata.Link
             title="Repository"
             text={skill.source}

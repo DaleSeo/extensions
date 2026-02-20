@@ -55,7 +55,14 @@ export default function Command() {
     >
       <List.Section title="Popular Skills" subtitle={`${skills.length} skills`}>
         {skills.map((skill, index) => (
-          <SkillListItem key={skill.id} skill={skill} rank={index + 1} isSelected={selectedId === skill.id} isShowingDetail={isShowingDetail} onToggleDetail={toggleDetail} />
+          <SkillListItem
+            key={skill.id}
+            skill={skill}
+            rank={index + 1}
+            isSelected={selectedId === skill.id}
+            isShowingDetail={isShowingDetail}
+            onToggleDetail={toggleDetail}
+          />
         ))}
       </List.Section>
     </List>
