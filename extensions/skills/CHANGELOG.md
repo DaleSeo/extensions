@@ -1,6 +1,6 @@
 # Changelog
 
-## [Inline Detail Panel] - {PR_MERGE_DATE}
+## [Inline Detail Panel] - 2026-02-26
 
 - Replace push-to-detail views with inline detail panels across all commands
 - Toggle detail panel visibility with Cmd+D
