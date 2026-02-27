@@ -33,7 +33,7 @@ export default function Command() {
   const agents = [...agentCounts.keys()].sort();
 
   const filteredSkills = selectedAgent === "all" ? skills : skills.filter((s) => s.agents.includes(selectedAgent));
-  const updatableCount = skills.filter((s) => s.hasUpdate).length;
+  const updatableCount = filteredSkills.filter((s) => s.hasUpdate).length;
 
   return (
     <List
