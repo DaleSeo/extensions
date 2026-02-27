@@ -1,5 +1,12 @@
 # Changelog
 
+## [Update Skills] - {PR_MERGE_DATE}
+
+- Check for available skill updates on launch
+- Show "Update available" badge on skills with updates
+- "Updates Available" summary section with update count
+- "Update All Skills" action (Cmd+Shift+U)
+
 ## [Inline Detail Panel] - 2026-02-26
 
 - Replace push-to-detail views with inline detail panels across all commands

@@ -2,10 +2,7 @@ import { useCachedPromise } from "@raycast/utils";
 import { listInstalledSkills, checkForUpdates } from "../utils/skills-cli";
 
 async function fetchSkillsWithUpdateStatus() {
-  const [skills, updatable] = await Promise.all([
-    listInstalledSkills(),
-    checkForUpdates().catch(() => [] as string[]),
-  ]);
+  const [skills, updatable] = await Promise.all([listInstalledSkills(), checkForUpdates().catch(() => [] as string[])]);
   const updatableSet = new Set(updatable);
   return skills.map((skill) => ({
     ...skill,
