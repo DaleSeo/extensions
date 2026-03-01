@@ -1,6 +1,6 @@
 # Changelog
 
-## [Update Skills] - {PR_MERGE_DATE}
+## [Update Skills] - 2026-03-01
 
 - Check for available skill updates on launch
 - Show "Update available" badge on skills with updates
