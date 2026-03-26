@@ -1,5 +1,10 @@
 # Changelog
 
+## [Agent-Specific Install] - {PR_MERGE_DATE}
+
+- Choose which agents to install a skill for instead of installing for all agents at once
+- New agent picker form shown after the security audit confirmation step
+
 ## [Lock File Metadata] - 2026-03-23
 
 - Show skill source, install date, and update date from the global lock file in the detail panel

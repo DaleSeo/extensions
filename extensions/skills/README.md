@@ -7,7 +7,7 @@ Browse, search, and manage AI agent skills from [Skills](https://skills.sh) dire
 - Browse top skills ranked by total installs
 - Search for specific skills
 - Filter available skills by owner
-- Install skills for all supported agents
+- Install skills for specific agents or all at once
 - View security audit status from `skills.sh` before installing
 - View, update, and remove installed skills
 - Check for skill updates — outdated skills are highlighted with an orange icon

@@ -72,6 +72,39 @@ export function normalizeAllowedTools(tools: string | string[] | undefined): str
   return [tools];
 }
 
+/**
+ * Agent identifier → display name mapping.
+ * Identifiers are the CLI values accepted by `-a, --agent`.
+ * Display names come from `skills list --json` output.
+ */
+export const KNOWN_AGENTS: { id: string; displayName: string }[] = [
+  { id: "claude-code", displayName: "Claude Code" },
+  { id: "cursor", displayName: "Cursor" },
+  { id: "windsurf", displayName: "Windsurf" },
+  { id: "github-copilot", displayName: "GitHub Copilot" },
+  { id: "cline", displayName: "Cline" },
+  { id: "roo", displayName: "Roo" },
+  { id: "goose", displayName: "Goose" },
+  { id: "cortex", displayName: "Cortex Code" },
+  { id: "gemini-cli", displayName: "Gemini CLI" },
+  { id: "amp", displayName: "Amp" },
+  { id: "codex", displayName: "Codex" },
+  { id: "kilo", displayName: "Kilo" },
+  { id: "opencode", displayName: "OpenCode" },
+  { id: "continue", displayName: "Continue" },
+  { id: "trae", displayName: "Trae" },
+  { id: "warp", displayName: "Warp" },
+  { id: "junie", displayName: "Junie" },
+  { id: "kiro-cli", displayName: "Kiro CLI" },
+];
+
+const DISPLAY_NAME_TO_ID = new Map(KNOWN_AGENTS.map((a) => [a.displayName, a.id]));
+
+/** Map an agent display name (from `skills list --json`) to its CLI identifier. */
+export function agentDisplayNameToId(displayName: string): string | undefined {
+  return DISPLAY_NAME_TO_ID.get(displayName);
+}
+
 export const SKILLS_BASE_URL = "https://skills.sh";
 export const API_BASE_URL = `${SKILLS_BASE_URL}/api`;
 const REPO_URL = "https://github.com/raycast/extensions";
@@ -149,8 +182,12 @@ export function stripGitSuffix(url: string): string {
   return url.endsWith(".git") ? url.slice(0, -4) : url;
 }
 
-export function buildInstallCommand(skill: Skill): string {
-  return `npx skills add ${skill.source}@${skill.skillId}`;
+export function buildInstallCommand(skill: Skill, agents?: string[]): string {
+  const base = `npx skills add ${skill.source}@${skill.skillId}`;
+  if (agents && agents.length > 0) {
+    return `${base} -a ${agents.join(" ")}`;
+  }
+  return base;
 }
 
 export function deduplicateSkills(skills: Skill[]): Skill[] {

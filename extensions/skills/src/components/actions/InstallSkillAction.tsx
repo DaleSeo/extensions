@@ -1,9 +1,9 @@
-import { Action, Alert, Icon, showToast, Toast, confirmAlert } from "@raycast/api";
-import { showFailureToast } from "@raycast/utils";
-import { AUDIT_PROVIDER_LABELS, type Skill } from "../../shared";
+import { Action, Alert, Icon, showToast, Toast, confirmAlert, useNavigation } from "@raycast/api";
+import { AUDIT_PROVIDER_LABELS, type Skill, agentDisplayNameToId } from "../../shared";
 import { useSkillAudits } from "../../hooks/useSkillAudits";
 import { type SkillAuditsResult, fetchSkillAudits } from "../../utils/skill-audits";
-import { installSkill } from "../../utils/skills-cli";
+import { listInstalledSkills } from "../../utils/skills-cli";
+import { AgentPickerForm, type AgentOption } from "../AgentPickerForm";
 
 interface InstallSkillActionProps {
   skill: Skill;
@@ -37,10 +37,11 @@ function getConfirmationMessage(auditResult: SkillAuditsResult): string {
     return `Security audits are pending for this skill and its security status cannot be verified. ${reviewMessage}`;
   }
 
-  return "This will install the skill for all supported agents.";
+  return "You can choose which agents to install this skill for on the next screen.";
 }
 
 export function InstallSkillAction({ skill, prefetchedAuditResult }: InstallSkillActionProps) {
+  const { push } = useNavigation();
   const { result: cachedAuditResult } = useSkillAudits(skill, {
     shouldFetch: false,
     initialData: prefetchedAuditResult,
@@ -53,25 +54,6 @@ export function InstallSkillAction({ skill, prefetchedAuditResult }: InstallSkil
       await toast.hide();
     } catch {
       // Ignore toast cleanup failures so confirmation can still proceed.
-    }
-  };
-
-  const executeInstall = async () => {
-    const toast = await showToast({
-      style: Toast.Style.Animated,
-      title: "Installing skill...",
-      message: skill.name,
-    });
-
-    try {
-      await installSkill(skill);
-
-      toast.style = Toast.Style.Success;
-      toast.title = "Skill installed successfully";
-      toast.message = `${skill.name} is now available`;
-    } catch (error) {
-      await toast.hide();
-      await showFailureToast(error, { title: "Failed to install skill" });
     }
   };
 
@@ -119,7 +101,16 @@ export function InstallSkillAction({ skill, prefetchedAuditResult }: InstallSkil
 
     if (!confirmed) return;
 
-    await executeInstall();
+    const installedSkills = await listInstalledSkills().catch(() => []);
+    const uniqueAgentNames = [...new Set(installedSkills.flatMap((s) => s.agents))].sort();
+    const agents: AgentOption[] = uniqueAgentNames
+      .map((name) => {
+        const id = agentDisplayNameToId(name);
+        return id ? { id, displayName: name } : undefined;
+      })
+      .filter((a): a is AgentOption => a !== undefined);
+
+    push(<AgentPickerForm skill={skill} agents={agents} />);
   };
 
   return <Action title="Install Skill" icon={Icon.Download} onAction={handleInstall} />;

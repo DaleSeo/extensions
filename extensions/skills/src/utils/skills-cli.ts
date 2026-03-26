@@ -130,8 +130,13 @@ export async function listInstalledSkills(): Promise<InstalledSkill[]> {
   }
 }
 
-export async function installSkill(skill: Skill): Promise<void> {
-  await runSkillsCli(["add", `${skill.source}@${skill.skillId}`, "-g", "-y"]);
+export async function installSkill(skill: Skill, agents?: string[]): Promise<void> {
+  const args = ["add", `${skill.source}@${skill.skillId}`, "-g"];
+  if (agents && agents.length > 0) {
+    args.push("-a", ...agents);
+  }
+  args.push("-y");
+  await runSkillsCli(args);
 }
 
 export async function removeSkill(skillName: string): Promise<void> {
