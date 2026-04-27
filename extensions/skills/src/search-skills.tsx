@@ -5,6 +5,14 @@ import { SkillListItem } from "./components/SkillListItem";
 import { useInstalledSkillNames } from "./hooks/useInstalledSkillNames";
 import { useOwnerFilter } from "./hooks/useOwnerFilter";
 import { useDebouncedSearch } from "./hooks/useDebouncedSearch";
+import {
+  useSkillSort,
+  SORT_LABELS,
+  SORT_OPTIONS,
+  isSortDropdownValue,
+  parseSortDropdownValue,
+  toSortDropdownValue,
+} from "./hooks/useSkillSort";
 import { buildGithubIssueUrl } from "./shared";
 
 export default function Command() {
@@ -16,7 +24,17 @@ export default function Command() {
   const { data, isLoading, error, revalidate, searchUrl } = useDebouncedSearch(searchText);
   const { installedNames } = useInstalledSkillNames();
 
-  const { owner, setOwner, ownerCounts, skills } = useOwnerFilter(data?.skills ?? []);
+  const { owner, setOwner, ownerCounts, skills: ownerFiltered } = useOwnerFilter(data?.skills ?? []);
+  const { sort, setSort, skills } = useSkillSort(ownerFiltered);
+
+  const handleDropdownChange = (value: string) => {
+    if (isSortDropdownValue(value)) {
+      const parsed = parseSortDropdownValue(value);
+      if (parsed) void setSort(parsed);
+    } else {
+      setOwner(value);
+    }
+  };
 
   if (error && !data) {
     return (
@@ -53,11 +71,21 @@ export default function Command() {
       onSelectionChange={setSelectedId}
       isShowingDetail={skills.length > 0 && isShowingDetail}
       searchBarAccessory={
-        <List.Dropdown tooltip="Filter by Owner" value={owner} storeValue onChange={setOwner}>
-          <List.Dropdown.Item title="All Owners" value="all" />
-          <List.Dropdown.Section title="Owners">
-            {[...ownerCounts.entries()].map(([owner, count]) => (
-              <List.Dropdown.Item key={owner} title={`${owner} (${count})`} value={owner} />
+        <List.Dropdown tooltip="Sort & Filter" value={owner} onChange={handleDropdownChange}>
+          <List.Dropdown.Section title="Sort By">
+            {SORT_OPTIONS.map((option) => (
+              <List.Dropdown.Item
+                key={option}
+                title={SORT_LABELS[option]}
+                value={toSortDropdownValue(option)}
+                icon={sort === option ? Icon.CheckCircle : Icon.Circle}
+              />
+            ))}
+          </List.Dropdown.Section>
+          <List.Dropdown.Section title="Filter by Owner">
+            <List.Dropdown.Item title="All Owners" value="all" />
+            {[...ownerCounts.entries()].map(([ownerName, count]) => (
+              <List.Dropdown.Item key={ownerName} title={`${ownerName} (${count})`} value={ownerName} />
             ))}
           </List.Dropdown.Section>
         </List.Dropdown>
@@ -81,7 +109,10 @@ export default function Command() {
           }
         />
       ) : (
-        <List.Section title={`Results for "${searchText}"`} subtitle={`${skills.length} skills`}>
+        <List.Section
+          title={`Results for "${searchText}"`}
+          subtitle={`${skills.length} skills · Sorted by ${SORT_LABELS[sort]}`}
+        >
           {skills.map((skill) => (
             <SkillListItem
               key={skill.id}

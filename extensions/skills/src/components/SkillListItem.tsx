@@ -185,10 +185,9 @@ export function SkillListItem({
   const icon =
     rank !== undefined && rank !== null
       ? { source: Icon.Trophy, tintColor: rank <= 3 ? Color.Yellow : Color.SecondaryText }
-      : { source: Icon.Hammer };
+      : { source: Icon.Hammer, tintColor: isInstalled ? Color.Green : undefined };
 
   const accessories: List.Item.Accessory[] = [];
-  if (isInstalled) accessories.push({ tag: { value: "Installed", color: Color.Green } });
   if (!isShowingDetail) accessories.push({ text: formatInstalls(skill.installs), icon: Icon.Download });
 
   const shownErrorTimestampRef = useRef<string | undefined>(undefined);

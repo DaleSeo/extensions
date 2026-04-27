@@ -1,5 +1,12 @@
 # Skills Changelog
 
+## [Sort Search Results] - {PR_MERGE_DATE}
+
+- Sort search results by Popularity (default), Name, or Relevance via the search bar dropdown
+- Persist the chosen sort across sessions
+- Show the active sort in the results section title
+- Tint the hammer icon green for installed skills (replacing the "Installed" accessory tag) for parity with the outdated-skill coloring in Manage Skills
+
 ## [Fix Homebrew `node@` Resolution and add Custom `npx` Validation] - 2026-04-23
 
 - Detect versioned Homebrew Node formula bins like `/opt/homebrew/opt/node@24/bin` so the Skills CLI can find `node` when `npx` comes from Homebrew, while still preferring Node installs from version managers first
